@@ -13,7 +13,7 @@
 // -----------------------------------------------------------------------------
 
 export function addTokenToAttribute(
-  element: HTMLElement,
+  element: Element,
   attribute: string,
   token: string,
 ): void {
