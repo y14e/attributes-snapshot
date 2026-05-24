@@ -1,0 +1,45 @@
+{
+  "name": "@y14e/attributes-snapshot",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepublishOnly": "npm run build",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "Yusuke Kamiyamane",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/y14e/attributes-snapshot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/y14e/attributes-snapshot/issues"
+  },
+  "homepage": "https://github.com/y14e/attributes-snapshot#readme",
+  "devDependencies": {
+    "bun-types": "latest",
+    "tsup": "^8.0.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
