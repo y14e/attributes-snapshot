@@ -14,25 +14,27 @@
 
 const snapshots = new WeakMap<Element, Map<string, string | null>>();
 
-export function saveAttributes(element: Element, attributes: string[]) {
-  let snapshot = snapshots.get(element);
+export function saveAttributes(elements: Element[], attributes: string[]) {
+  elements.forEach((element) => {
+    let snapshot = snapshots.get(element);
 
-  if (!snapshot) {
-    snapshot = new Map();
-    snapshots.set(element, snapshot);
-  }
+    if (!snapshot) {
+      snapshot = new Map();
+      snapshots.set(element, snapshot);
+    }
 
-  attributes.forEach((attribute) => {
-    snapshot.set(attribute, element.getAttribute(attribute));
+    attributes.forEach((attribute) => {
+      snapshot.set(attribute, element.getAttribute(attribute));
+    });
   });
 }
 
 export function restoreAttributes(elements: Element[]) {
-  for (const element of elements) {
+  elements.forEach((element) => {
     const snapshot = snapshots.get(element);
 
     if (!snapshot) {
-      continue;
+      return;
     }
 
     for (const [attribute, value] of snapshot.entries()) {
@@ -44,5 +46,5 @@ export function restoreAttributes(elements: Element[]) {
     }
 
     snapshots.delete(element);
-  }
+  });
 }
