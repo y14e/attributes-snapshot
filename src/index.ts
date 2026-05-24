@@ -1,33 +1,30 @@
 /**
- * Attributes Snapshot
+ * Attributes Utils
  *
  * @version 1.0.0
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
- * @see {@link https://github.com/y14e/attributes-snapshot}
+ * @see {@link https://github.com/y14e/attributes-utils}
  */
 
 // -----------------------------------------------------------------------------
 // APIs
 // -----------------------------------------------------------------------------
 
-const snapshots = new WeakMap<Element, Map<string, string | null>>();
-
-export function saveAttributes(elements: Element[], attributes: string[]) {
-  elements.forEach((element) => {
-    let snapshot = snapshots.get(element);
-
-    if (!snapshot) {
-      snapshot = new Map();
-      snapshots.set(element, snapshot);
-    }
-
-    attributes.forEach((attribute) => {
-      snapshot.set(attribute, element.getAttribute(attribute));
-    });
-  });
+export function addTokenToAttribute(
+  element: HTMLElement,
+  attribute: string,
+  token: string,
+): void {
+  const tokens = new Set(
+    element.getAttribute(attribute)?.trim().split(/\s+/) ?? [],
+  );
+  tokens.add(token);
+  element.setAttribute(attribute, [...tokens].join(' '));
 }
+
+const snapshots = new WeakMap<Element, Map<string, string | null>>();
 
 export function restoreAttributes(elements: Element[]) {
   elements.forEach((element) => {
@@ -46,5 +43,20 @@ export function restoreAttributes(elements: Element[]) {
     }
 
     snapshots.delete(element);
+  });
+}
+
+export function saveAttributes(elements: Element[], attributes: string[]) {
+  elements.forEach((element) => {
+    let snapshot = snapshots.get(element);
+
+    if (!snapshot) {
+      snapshot = new Map();
+      snapshots.set(element, snapshot);
+    }
+
+    attributes.forEach((attribute) => {
+      snapshot.set(attribute, element.getAttribute(attribute));
+    });
   });
 }

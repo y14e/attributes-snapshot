@@ -1,6 +1,6 @@
 {
-  "name": "@y14e/attributes-snapshot",
-  "version": "1.0.1",
+  "name": "@y14e/attributes-utils",
+  "version": "1.0.0",
   "description": "",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -28,12 +28,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/y14e/attributes-snapshot.git"
+    "url": "git+https://github.com/y14e/attributes-utils.git"
   },
   "bugs": {
-    "url": "https://github.com/y14e/attributes-snapshot/issues"
+    "url": "https://github.com/y14e/attributes-utils/issues"
   },
-  "homepage": "https://github.com/y14e/attributes-snapshot#readme",
+  "homepage": "https://github.com/y14e/attributes-utils#readme",
   "devDependencies": {
     "bun-types": "latest",
     "tsup": "^8.0.0",
