@@ -1,13 +1,20 @@
 /**
  * Attributes Utils
  *
- * @version 1.0.2
+ * @version 1.0.3
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
  * @see {@link https://github.com/y14e/attributes-utils}
  */
 
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+
+export interface AttributesUtilsOptions {
+  caseInsensitive?: boolean;
+}
 // -----------------------------------------------------------------------------
 // APIs
 // -----------------------------------------------------------------------------
@@ -16,12 +23,28 @@ export function addTokenToAttribute(
   element: Element,
   attribute: string,
   token: string,
+  options: AttributesUtilsOptions = {},
 ): void {
-  const tokens = new Set(
-    element.getAttribute(attribute)?.trim().split(/\s+/) ?? [],
-  );
-  tokens.add(token);
-  element.setAttribute(attribute, [...tokens].join(' '));
+  const { caseInsensitive = false } = options;
+  const value = element.getAttribute(attribute)?.trim();
+  const tokens = value ? value.split(/\s+/) : [];
+
+  if (caseInsensitive) {
+    const lower = token.toLowerCase();
+
+    if (tokens.some((token) => token.toLowerCase() === lower)) {
+      return;
+    }
+
+    tokens.push(token);
+    element.setAttribute(attribute, tokens.join(' '));
+    return;
+  }
+
+  const set = new Set(tokens);
+  set.add(token);
+  element.setAttribute(attribute, [...set].join(' '));
+  return;
 }
 
 const snapshots = new WeakMap<Element, Map<string, string | null>>();
