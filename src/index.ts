@@ -1,7 +1,7 @@
 /**
  * Attributes Utils
  *
- * @version 1.0.3
+ * @version 1.0.4
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
@@ -13,12 +13,17 @@
 // -----------------------------------------------------------------------------
 
 export interface AttributesUtilsOptions {
-  caseInsensitive?: boolean;
+  readonly caseInsensitive?: boolean;
+  readonly parse?: (value: string) => string[];
+  readonly serialize?: (tokens: string[]) => string;
 }
 
 // -----------------------------------------------------------------------------
 // APIs
 // -----------------------------------------------------------------------------
+
+const defaultParser = (value: string): string[] => value.split(/\s+/);
+const defaultSerializer = (tokens: string[]): string => tokens.join(' ');
 
 export function addTokenToAttribute(
   element: Element,
@@ -26,9 +31,13 @@ export function addTokenToAttribute(
   token: string,
   options: AttributesUtilsOptions = {},
 ): void {
-  const { caseInsensitive = false } = options;
-  const value = element.getAttribute(attribute)?.trim();
-  const tokens = value ? value.split(/\s+/) : [];
+  const {
+    caseInsensitive = false,
+    parse = defaultParser,
+    serialize = defaultSerializer,
+  } = options;
+  const raw = element.getAttribute(attribute)?.trim();
+  const tokens = raw ? parse(raw).filter(Boolean) : [];
 
   if (caseInsensitive) {
     const lower = token.toLowerCase();
@@ -38,14 +47,13 @@ export function addTokenToAttribute(
     }
 
     tokens.push(token);
-    element.setAttribute(attribute, tokens.join(' '));
+    element.setAttribute(attribute, serialize(tokens));
     return;
   }
 
   const set = new Set(tokens);
   set.add(token);
-  element.setAttribute(attribute, [...set].join(' '));
-  return;
+  element.setAttribute(attribute, serialize([...set]));
 }
 
 const snapshots = new WeakMap<Element, Map<string, string | null>>();
@@ -59,11 +67,9 @@ export function restoreAttributes(elements: Element[]) {
     }
 
     for (const [attribute, value] of snapshot.entries()) {
-      if (value === null) {
-        element.removeAttribute(attribute);
-      } else {
-        element.setAttribute(attribute, value);
-      }
+      value === null
+        ? element.removeAttribute(attribute)
+        : element.setAttribute(attribute, value);
     }
 
     snapshots.delete(element);
