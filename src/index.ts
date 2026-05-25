@@ -1,7 +1,7 @@
 /**
  * Attributes Utils
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
@@ -27,11 +27,11 @@ export function addTokenToAttribute(
 const snapshots = new WeakMap<Element, Map<string, string | null>>();
 
 export function restoreAttributes(elements: Element[]) {
-  elements.forEach((element) => {
+  for (const element of elements) {
     const snapshot = snapshots.get(element);
 
     if (!snapshot) {
-      return;
+      break;
     }
 
     for (const [attribute, value] of snapshot.entries()) {
@@ -43,7 +43,7 @@ export function restoreAttributes(elements: Element[]) {
     }
 
     snapshots.delete(element);
-  });
+  }
 }
 
 export function saveAttributes(elements: Element[], attributes: string[]) {
