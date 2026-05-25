@@ -1,7 +1,7 @@
 /**
  * Attributes Utils
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
@@ -31,7 +31,7 @@ export function restoreAttributes(elements: Element[]) {
     const snapshot = snapshots.get(element);
 
     if (!snapshot) {
-      break;
+      continue;
     }
 
     for (const [attribute, value] of snapshot.entries()) {
