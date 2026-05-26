@@ -1,7 +1,7 @@
 /**
  * Attributes Utils
  *
- * @version 1.0.4
+ * @version 1.0.5
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
@@ -36,8 +36,8 @@ export function addTokenToAttribute(
     parse = defaultParser,
     serialize = defaultSerializer,
   } = options;
-  const raw = element.getAttribute(attribute)?.trim();
-  const tokens = raw ? parse(raw).filter(Boolean) : [];
+  const value = element.getAttribute(attribute)?.trim();
+  const tokens = value ? parse(value).filter(Boolean) : [];
 
   if (caseInsensitive) {
     const lower = token.toLowerCase();
