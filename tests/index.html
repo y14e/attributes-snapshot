@@ -1,0 +1,16 @@
+<html lang="en">
+<body>
+<div id="target" aria-controls="token2 token1">
+
+</div>
+<script type="module">
+import { addTokenToAttribute, removeTokenFromAttribute } from './index.js';
+
+addTokenToAttribute(document.getElementById('target'), 'aria-controls', 'token1', { caseInsensitive: false });
+addTokenToAttribute(document.getElementById('target'), 'aria-controls', 'token3', { caseInsensitive: false });
+removeTokenFromAttribute(document.getElementById('target'), 'aria-controls', 'token3', { caseInsensitive: false });
+removeTokenFromAttribute(document.getElementById('target'), 'aria-controls', 'token1', { caseInsensitive: false });
+removeTokenFromAttribute(document.getElementById('target'), 'aria-controls', 'token2', { caseInsensitive: false });
+</script>
+</body>
+</html>
